@@ -3,25 +3,6 @@
 
 import hid
 
-"""
-
-This relay object uses the HID library instead of usb. 
-
-Some scant details about the USB Relay
-http://vusb.wikidot.com/project:driver-less-usb-relays-hid-interface
-
-cython-hidapi module:
-https://github.com/trezor/cython-hidapi
-
-Installing the module:
-sudo apt-get install python-dev libusb-1.0-0-dev libudev-dev
-pip install --upgrade setuptools
-pip install hidapi
-
-A list of avaible methods for the hid object:
-https://github.com/trezor/cython-hidapi/blob/6057d41b5a2552a70ff7117a9d19fc21bf863867/chid.pxd#L9
-
-"""
 
 class Relay(object):
 	"""docstring for Relay"""
