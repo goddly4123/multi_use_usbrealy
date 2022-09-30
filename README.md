@@ -6,36 +6,12 @@ import hid
 
 class Relay(object):
 	"""docstring for Relay"""
-	def __init__(self, idVendor=0x16c0, idProduct=0x05df, path=b'1-7:1.0'):
-
+	def __init__(self, path=b'1-7:1.0'):
 		self.h = hid.device()
-
-		#self.h.open(idVendor, idProduct)
 		self.h.open_path(path)
-		print('-----')
 		self.h.set_nonblocking(1)
 
 	def get_switch_statuses_from_report(self, report):
-		"""
-
-		The report returned is a 8 int list, ex:
-		
-		[76, 72, 67, 88, 73, 0, 0, 2]
-
-		The ints are passed as chars, and this page can help interpret:
-		https://www.branah.com/ascii-converter
-
-		The first 5 in the list are a unique ID, in case there is more than one switch.
-
-		The last three seem to be reserved for the status of the relays. The status should
-		be interpreted in binary and in reverse order.  For example:
-
-		2 = 00000010
-
-		This means that switch 1 is off and switch 2 is on, and all others are off.
-
-		"""
-
 		# Grab the 8th number, which is a integer
 		switch_statuses = report[7]
 
@@ -63,20 +39,6 @@ class Relay(object):
 		return self.h.get_feature_report(feature, length)
 
 	def state(self, relay, on=None):
-		"""
-
-		Getter/Setter for the relay.  
-
-		Getter - If only a relay is specified (with an int), then that relay's status 
-		is returned.  If relay = 0, a list of all the statuses is returned.
-		True = on, False = off.
-
-		Setter - If a relay and on are specified, then the relay(s) status will be set.
-		Either specify the specific relay, 1-8, or 0 to change the state of all relays.
-		on=True will turn the relay on, on=False will turn them off.
-
-		"""
-
 		# Getter
 		if on == None:
 			if relay == 0:
@@ -100,9 +62,6 @@ class Relay(object):
 				else:
 					message = [0xFC]
 			else:
-				# An integer can be passed instead of the a byte, but it's better to
-				# use ints when possible since the docs use them, but it's not neccessary.
-				# https://github.com/jaketeater/simpleusbrelay/blob/master/simpleusbrelay/__init__.py
 				if on:
 					message = [0xFF, relay]
 				else:
