@@ -1,6 +1,3 @@
-# multi_use_usbrealy
-# using over 2-usbrelay in one desktop
-
 import hid
 
 
